@@ -31,8 +31,8 @@ exports.addBookController = async (req,res)=>{
 }
 
 //get home books
-exports.getHomeBooksController = async (req,res)=>{
-    console.log("Inside getHomeBooksController");
+exports.getHomePageBooksController = async (req,res)=>{
+    console.log("Inside getHomePageBooksController");
     
     try{
         //get newly added 4 books from db
@@ -47,14 +47,18 @@ exports.getHomeBooksController = async (req,res)=>{
     
 }
 
-//get all books - user
+//get all books - user :login user
 exports.getUserAllBooksPageController = async (req,res)=>{
     console.log("Inside getUserAllBooksPageController");
+    //get query from req
+    const searchKey = req.query.search
+    console.log(searchKey);
+    
     //get login user mail from token
     const loginUserMail = req.payload
     try{
         //get all books from db except loggedin user
-        const allBooks = await books.find({sellerMail:{$ne:loginUserMail}})
+        const allBooks = await books.find({sellerMail:{$ne:loginUserMail},title:{$regex:searchKey,$options:'i'}})
         res.status(200).json(allBooks)
     }catch(error){
         console.log(error);
@@ -65,7 +69,7 @@ exports.getUserAllBooksPageController = async (req,res)=>{
     
 }
 
-//get all user uploaded books
+//get all user uploaded books :login user
 exports.getUserUploadBookProfilePageController = async (req,res)=>{
     console.log("Inside getUserUploadBookProfilePageController");
     //get login user mail from token
