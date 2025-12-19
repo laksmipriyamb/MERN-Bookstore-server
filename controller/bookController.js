@@ -101,7 +101,19 @@ exports.getUserBoughtBookProfilePageController = async (req,res)=>{
         console.log(error);
         res.status(500).json(error)
     }
-    
-    
-    
+}
+//get book details by id
+exports.getBookDetailsByIdController = async (req,res)=>{
+    console.log("Inside getBookDetailsByIdController");
+    const {id} = req.params
+    try{
+        const bookDetails = await books.findById({_id:id})
+        if(!bookDetails){
+            return res.status(404).json("Book not found")
+        }
+        res.status(200).json(bookDetails)
+    }catch(error){
+        console.log(error);
+        res.status(500).json(error)
+    }
 }
