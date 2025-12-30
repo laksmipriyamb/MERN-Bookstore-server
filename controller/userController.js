@@ -104,8 +104,18 @@ exports.updateUserProfileController = async(req,res)=>{
         res.status(500).json(error)
         
     }
+}
 
-    
-    
+//get all users with role as admin - admin :login user  
+exports.getAllUsersController = async (req,res)=>{
+    console.log("Inside getAllUsersController");
+    try{
+        //get all books from db 
+        const allAdmins = await users.find({ role: "user" })
+        res.status(200).json(allAdmins)
+    }catch(error){
+        console.log(error);
+        res.status(500).json(error)
+    }       
 }
 //admineditprofile
